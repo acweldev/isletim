@@ -1,218 +1,317 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İşletim Sistemleri Quiz (150 Soru)</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 15px;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        h1, h2 {
-            color: #0056b3;
-            text-align: center;
-        }
-        .question-container {
-            background: #ffffff;
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .question-text {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        .options {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .options li {
-            margin-bottom: 5px;
-            padding: 5px 0;
-            border-bottom: 1px dotted #ccc;
-        }
-        .answer {
-            margin-top: 10px;
-            padding: 8px;
-            background-color: #e0f7fa;
-            border: 1px solid #00bcd4;
-            border-radius: 4px;
-        }
-        .answer strong {
-            color: #00796b;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>İşletim Sistemleri - Soru Testi</title>
+  <style>
+  /* Primary (forced) dark theme colors - single dark mode */
+  :root{--bg:#0b1116;--card:#081016;--accent:#58a6ff;--ok:#2ea44f;--bad:#ff7b86;--text:#e6edf3;--muted:#9aa9b2}
+    html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#111}
+    .wrap{max-width:940px;margin:20px auto;padding:12px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    h1{font-size:1.1rem;margin:0}
+    p.lead{margin:6px 0 14px;color:#333}
+    .controls{display:flex;gap:8px;align-items:center}
+  button{background:var(--accent);color:#071422;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
+    button.secondary{background:#6c757d}
+  .stats{font-size:.95rem;color:var(--muted)}
+
+  .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);border-radius:12px;padding:12px;margin:10px 0;box-shadow:0 2px 8px rgba(2,6,23,0.6)}
+    .qheader{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .qnum{font-weight:700;color:var(--accent);margin-right:8px}
+  .qtext{margin:8px 0 12px;color:var(--text)}
+    .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{display:block;text-align:left;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.01);color:var(--text);cursor:pointer}
+  .opt:hover{box-shadow:0 6px 18px rgba(88,166,255,0.06);transform:translateY(-1px)}
+  .opt.correct{background:linear-gradient(90deg, rgba(46,164,79,0.12), rgba(46,164,79,0.06));border-color:rgba(46,164,79,0.22);color:var(--text);font-weight:700}
+  .opt.wrong{background:linear-gradient(90deg, rgba(255,123,134,0.08), rgba(255,123,134,0.04));border-color:rgba(255,123,134,0.14);color:var(--text);font-weight:700}
+  .opt.correct strong,.opt.wrong strong{opacity:0.95}
+  .feedback{margin-top:8px;font-size:.95rem}
+  .meta{font-size:.85rem;color:var(--muted);margin-top:6px}
+
+    @media (max-width:600px){
+      .wrap{padding:8px}
+      h1{font-size:1rem}
+      button{padding:8px 10px}
+    }
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>İşletim Sistemleri - Test (150 Soru)</h1>
+        <p class="lead">Her sorunun şıkkına dokunun; doğruysa yeşil, yanlışsa kırmızı olur ve doğru cevap gösterilir.</p>
+      </div>
+      <div class="controls">
+          <div class="stats" id="stats">0/0 cevaplandı</div>
+          <button id="showScore" title="Puanı göster">Puanı Göster</button>
+          <button id="themeToggle" title="Tema: Koyu/Açık" aria-pressed="false">🌙</button>
+          <button id="reset" class="secondary" title="Sıfırla">Sıfırla</button>
+        </div>
+    </header>
 
-    <h1>İşletim Sistemleri Giriş Dersi (150 Soru)</h1>
-    <h2>Çoktan Seçmeli Soru Bankası</h2>
+    <main id="quiz"></main>
+    <footer style="margin-top:18px;color:#555;font-size:.9rem">Dosya bazlı otomatik ayrıştırma kullanıldı. HTML içinde tüm sorular JS tarafından oluşturulur.</footer>
+  </div>
 
-    <!-- Soru 1 -->
-    <div class="question-container">
-        <div class="question-text">1. Modern bilgisayar çalışma prensiplerini temel alan ve 1945'te geliştirilen mimari aşağıdakilerden hangisidir? [1]</div>
-        <ul class="options">
-            <li>A) Harvard Mimarisi</li>
-            <li>B) Turing Mimarisi</li>
-            <li>C) Von Neumann Mimarisi</li>
-            <li>D) CISC Mimarisi</li>
-        </ul>
-        <div class="answer"><strong>Cevap:</strong> C (Von Neumann Mimarisi)</div>
-    </div>
+  <script>
+  // Raw soru.txt içeriisi (otomatik olarak buraya gömülmüştür)
+  const raw = `
+1. Modern bilgisayar çalışma prensiplerini temel alan ve 1945'te geliştirilen mimari aşağıdakilerden hangisidir? A) Harvard Mimarisi B) Turing Mimarisi C) Von Neumann Mimarisi D) CISC Mimarisi Cevap: C
+2. İşletim sistemini, bilgisayarın donanım elemanlarının birbiriyle uyumlu çalışmasını sağlayan görevli olarak tanımlayan ve orkestradaki rolüne benzetilen kavram aşağıdakilerden hangisidir? A) Besteci B) Solist C) Orkestra Şefi (Maestro) D) Virtüöz Cevap: C
+3. İşletim sistemi tanımına göre, kaynakların kullanım verimliliğini en üst düzeyde tutmayı amaçlayan, donanım ve yazılım nitelikli kaynakları kullanıcılar arasında kolay, hızlı ve güvenli bir işletim hizmetine olanak verecek biçimde paylaştıran yapı nedir? A) Merkezi İşlem Birimi (MİB) B) Veri tabanı C) Uygulama programı D) İşletim sistemi Cevap: D
+4. Bilgisayar sisteminin genel görünümünde, Ana Bellek ile Merkezi İşlem Birimi (MİB) arasında çift yönlü veri akışını sağlayan yollar hangileridir? A) Kontrol Birimi ve Veri Yolu B) Aritmetik ve Mantık Birimi C) Adres yolu ve Veri yolu D) G/Ç Aygıtları Cevap: C
+5. 1950'lerdeki Eski Sistemlerin (Mainframe) bilgi girişi ve çıkışı için kullandığı temel yöntem aşağıdakilerden hangisiydi? A) Monitör ve klavye B) Kartlar C) Disketler D) Ağ bağlantıları Cevap: B
+6. Eski Sistemlerin (Mainframe) temel bir özelliği olarak belirtilen ve aynı anda sadece bir işin yapıldığı çalışma şekli nasıldır? A) Paralel çalışma B) Çoklu programlama C) Çok görevli D) Doğrusal çalışma Cevap: D
+7. Toplu İşlem Sistemlerinde (Batch Systems) otomatik olarak birden fazla işin arka arkaya yapılması neyin geliştirilmesiyle sağlanmıştır? A) Gerçek Zamanlı Sistemler B) Monitör Programları C) Zaman Paylaşımı D) Dağıtık Mimariler Cevap: B
+8. Zaman paylaşımlı sistemlerde, MİB'nin farklı işlerin belli görevlerini sırayla yerine getirerek kullanıcının bu işleri aynı anda yapıyormuş gibi algılamasına neden olan özellik nedir? A) Çoklu Programlama (Multiprogramming) B) Çok Görevli (Multitasking) C) Asimetrik Çoklu İşleme D) Monolitik Çekirdek Cevap: B
+9. Aynı anda birden fazla programın çalıştırılması anlamına gelen ve Zaman Paylaşımlı Sistemlerde sistem tarafından MİB zamanlaması ve bellek yönetimi gibi işlemlerin yapıldığı kavram aşağıdakilerden hangisidir? A) Tek Kullanıcılı Sistem B) Doğrusal Çalışma C) Çoklu Programlama (Multiprogramming) D) Gömülü Sistem Cevap: C
+10. Kişisel Bilgisayar Sistemlerinin (Personal Computer Systems) ortaya çıkmasına neden olan temel fiziksel değişiklik nedir? A) Ağ teknolojilerinin gelişmesi B) Donanım ebatlarının küçülmesi C) Gerçek zamanlı sistemlere olan ihtiyaç D) Monitör programlarının icadı Cevap: B
+11. Aşağıdakilerden hangisi Paralel veya Çok İşlemcili Sistemlerin (Paralell Systems) temel özelliğidir? A) Her işlemcinin kendine ait belleği olması B) Sadece tek bir MİB kullanılması C) Birden fazla MİB kullanılması ve belleği paylaşmaları D) Yalnızca Toplu İşlem yapabilmeleri Cevap: C
+12. Simetrik çoklu işlemede, her işlemci neyin ayrı bir kopyası üzerinde çalışır? A) Uygulama programı B) Donanım soyutlama katmanı C) İşletim sisteminin D) Veri tabanı Cevap: C
+13. Asimetrik çoklu işlemede, görev ve iş dağılımlarını yapan ve slave (ikincil) işlemciler için işleri sıraya sokup zamanlayan işlemciye ne ad verilir? A) Slave işlemci B) İstemci işlemci C) Master işlemci D) Dağıtıcı Cevap: C
+14. Dağıtık Sistemlerde (Distributed Systems) her işlemcinin kendine ait belleği vardır ve bu işlemciler diğer işlemcilerle ne üzerinden haberleşirler? A) MİB Kaydedicileri B) Yerel Veri Yolu C) İletişim Hatları D) Taban Kaydedicisi Cevap: C
+15. Aşağıdakilerden hangisi Dağıtık Sistemlere örnek olarak verilmemiştir? A) Bilgisayar ağları B) Sunucu-İstemci Sistemleri C) Peer-to-Peer (Noktadan noktaya) D) Gerçek Zamanlı Sistemler Cevap: D
+16. Çok kısa sürelerde (örneğin milisaniyelerde) çalışan, bilimsel deneyleri kontrol eden ve endüstriyel kontrol sistemleri gibi uygulamalarda kullanılan sistem türü nedir? A) Gömülü Sistemler B) Toplu İşlem Sistemleri C) Gerçek-Zamanlı Sistemler (Real-Time Systems) D) Eski Sistemler Cevap: C
+17. Router'lar, firewall'lar ve otomobil motorlarının kontrol sistemleri hangi tür işletim sistemlerine örnektir? A) Kişisel Bilgisayar Sistemleri B) Zaman Paylaşımlı Sistemler C) Gömülü Sistemler (Embedded Systems) D) Dağıtık Sistemler Cevap: C
+18. Gömülü Sistemlerin tipik özelliklerinden biri nedir? A) Güçlü grafik kullanıcı arayüzüne sahip olmaları. B) Yüksek miktarda depolama birimi kullanmaları. C) Genellikle bir kullanıcı arayüzü olmaması, sadece donanımları izleme ve yönetme işlemleri yapmaları. D) Sadece Çoklu Programlama yapabilmeleri. Cevap: C
+19. İşletim sisteminin yerine getirmesi gereken fonksiyonlar arasında aşağıdakilerden hangisi bulunur? A) Kaynakları kontrol etmeli. B) Kesmelerin gereğini yerine getirmeli. C) İşlerde öncelik tanıyabilmeli. D) Yukarıdakilerin hepsi. Cevap: D
+20. Bir işletim sisteminde istenilen özelliklerden biri olan "Güvenirlik" ne anlama gelmektedir? A) Sistemin bakım yapılabilir olması. B) Sistemin kendinden taviz vermeden küçük boyutta olması. C) Sistemin tamamen hatalardan arındırılmış olması. D) Sistemin cevap verme süresinin kısa olması. Cevap: C
+21. Bir işletim sisteminde istenilen özelliklerden biri olan "Süreklilik" ne anlama gelmektedir? A) Sistemin hatalardan arındırılması. B) Cevap verme süresinin kısa olması. C) Sistemin bakım yapılabilir ve dokümanı bol olması. D) Az zamanda çok iş yapılması. Cevap: C
+22. Etkinlik tanımına göre işletim sistemi neyi etkin ve verimli bir şekilde yapmalıdır? A) Yalnızca G/Ç işlemini B) Sadece bellek yönetimini C) Bir işi D) Arayüz tasarımını Cevap: C
+23. İşletim sisteminin "düşük boyut" özelliğinde, sistemin küçük boyutta olması istenirken neyden taviz vermemesi gerektiği belirtilmiştir? A) Güvenlikten B) Kendinden C) G/Ç hızından D) Dokümantasyondan Cevap: B
+24. İşletim sistemi hangi bileşenler arasında bir ara yazılım görevi görür? A) Yalnızca kullanıcı ve donanım B) Donanım ve yazılım C) Yazılım ve yazılım D) Kullanıcı ve donanım, yazılım ve donanım, yazılım ve yazılım Cevap: D
+25. Bir işletim sisteminin yerine getirmesi gereken fonksiyonlardan hangisi, MİB'e gelen harici sinyalleri işleme görevidir? A) İşleri sıraya koymak B) Bilgileri uzun vadede saklamak C) Kesmelerin gereğini yerine getirmek D) Kaynakların hesabını tutmak Cevap: C
 
-    <!-- Soru 2 -->
-    <div class="question-container">
-        <div class="question-text">2. İşletim sistemini, bilgisayarın donanım elemanlarının birbiriyle uyumlu çalışmasını sağlayan görevli olarak tanımlayan ve orkestradaki rolüne benzetilen kavram aşağıdakilerden hangisidir? [1]</div>
-        <ul class="options">
-            <li>A) Besteci</li>
-            <li>B) Solist</li>
-            <li>C) Orkestra Şefi (Maestro)</li>
-            <li>D) Virtüöz</li>
-        </ul>
-        <div class="answer"><strong>Cevap:</strong> C (Orkestra Şefi (Maestro))</div>
-    </div>
-    
-    <!-- Soru 3 -->
-    <div class="question-container">
-        <div class="question-text">3. İşletim sistemi tanımına göre, kaynakların kullanım verimliliğini en üst düzeyde tutmayı amaçlayan, donanım ve yazılım nitelikli kaynakları kullanıcılar arasında kolay, hızlı ve güvenli bir işletim hizmetine olanak verecek biçimde paylaştıran yapı nedir? [2]</div>
-        <ul class="options">
-            <li>A) Merkezi İşlem Birimi (MİB)</li>
-            <li>B) Veri tabanı</li>
-            <li>C) Uygulama programı</li>
-            <li>D) İşletim sistemi</li>
-        </ul>
-        <div class="answer"><strong>Cevap:</strong> D (İşletim sistemi)</div>
-    </div>
-    
-    <!-- Soru 4 -->
-    <div class="question-container">
-        <div class="question-text">4. Bilgisayar sisteminin genel görünümünde, Ana Bellek ile Merkezi İşlem Birimi (MİB) arasında çift yönlü veri akışını sağlayan yollar hangileridir? [3]</div>
-        <ul class="options">
-            <li>A) Kontrol Birimi ve Veri Yolu</li>
-            <li>B) Aritmetik ve Mantık Birimi</li>
-            <li>C) Adres yolu ve Veri yolu</li>
-            <li>D) G/Ç Aygıtları</li>
-        </ul>
-        <div class="answer"><strong>Cevap:</strong> C (Adres yolu ve Veri yolu)</div>
-    </div>
+--------------------------------------------------------------------------------
+Hafta 2: Kaynak Paylaşımı ve Soyut Makineler
+26. Bir işletim sisteminde paylaşılan kaynaklar arasında aşağıdakilerden hangisi bulunmaz? A) Merkezi İşlem Birimi B) Dosyalar ve Klasörler C) Giriş/Çıkış birimleri D) Program Sayacı Cevap: D
+27. Kaynak paylaşımı yapılmasının nedenlerinden biri olarak, bir programın birden fazla kullanıcı tarafından kullanılarak neyden tasarruf sağlanması belirtilmiştir? A) MİB zamanından B) Ağ bant genişliğinden C) İşlemci çekirdeğinden D) Depolama birimlerinden Cevap: D
+28. İşletim sisteminin kaynak paylaşımını gerçekleştirmek için yerine getirmesi gereken görevlerden biri olan Dosya Sistemi, kullanıcının bilgilere adresler yerine ne ile ulaşımını sağlar? A) Fiziksel adresler B) Program sayaçları C) Sembolik isimler D) API çağrıları Cevap: C
+29. İşletim sisteminin Koruma ve hata kontrolü görevi neyi sağlamayı amaçlar? A) Uygulama programlarının hızını arttırmayı B) Kullanıcıların birbirlerinin alanlarına müdahale etmelerini önlemeyi C) İşlemlerin sadece supervisor modda çalışmasını D) Veri yolu iletişimini hızlandırmayı Cevap: B
+30. Aynı anda çalışma (Concurrent execution) durumu için aşağıdakilerden hangisi doğrudur? A) Birden fazla program hem mantıksal hem de fiziksel olarak aynı anda çalışır. B) İşlemlerin senkronize edilmesine gerek yoktur. C) Birden fazla program mantıksal olarak aynı anda çalışmakta iken, fiziksel olarak sıralı çalışmaktadır. D) Kaynaklar bölümlere ayrılmaz. Cevap: C
+31. Kaynakların paylaşımının işletim sistemi tarafından yürütüldüğü ve kullanıcının kaynakların paylaştırıldığından habersiz olduğu paylaşım türü nedir? A) Açık paylaşım (Explict sharing) B) Kaynak yalıtımı C) İşbirliği yaparak paylaşım D) Saydam paylaşım (Transparently sharing) Cevap: D
+32. Fiziksel makinenin bir simülasyonu olup, programın çalıştığı ortamı sağlayan ve fiziksel donanımları saydam paylaşım tekniğini kullanarak soyut makineler arasında paylaştıran yapıya ne ad verilir? A) İşlem Kontrol Bloğu B) Uygulama Programlama Arayüzü (API) C) Soyut/Sanal Makine (Abstract Machine) D) Çekirdek Cevap: C
+33. Soyut makine tarafından çalıştırılan programa genellikle ne ad verilir? A) Sürücü B) Kabuk C) İşlem (Process) D) Monitör Cevap: C
+34. Bellek ve hard disk gibi bir kaynağın bir veya daha fazla bölüme ayrıldığı ve her bir bölümün bir işlem'e atandığı paylaşım türü nedir? A) Zaman çoklama paylaşımı B) Açık paylaşım C) Alan çoklama paylaşımı (Space-multiplexed sharing) D) Paralel çalışma Cevap: C
+35. MİB'nin işlemler tarafından belirli süreler için kullanılması hangi çoklama paylaşım türüne örnektir? A) Alan çoklama paylaşımı B) Dosya paylaşımı C) Saydam paylaşım D) Zaman çoklama paylaşımı (Time-multiplexed sharing) Cevap: D
+36. Çoklu programlama (Multiprogramming) özelliği bir bilgisayar sisteminin neyini arttırır? A) Kaynak yalıtımını B) Donanım ebatlarını C) Sadece G/Ç hızını D) Performansını Cevap: D
+37. İşletim sisteminin, bir soyut makine tarafından kullanılan kaynağa diğer yetkisiz işlemlerin ulaşmasını engellemesi ne olarak adlandırılır? A) İşbirliği yaparak paylaşım B) Çoklu programlama C) Kaynak yalıtımı (Resource isolation) D) Etkileşim Cevap: C
+38. İşletim sisteminin, işlemlerin kaynakları istenildiği takdirde işbirliği yaparak paylaşmalarına izin verebilmesi hangi paylaşım türüdür? A) Saydam paylaşım B) Alan çoklama paylaşımı C) İşbirliği yaparak paylaşım (Cooperatively sharing) D) Kaynak yalıtımı Cevap: C
+39. Bir işletim sisteminin soyutlamalarının gerçekleştirildiği ve sistem yazılımlarına ulaşımın sağlandığı arayüz, programcılar tarafından ne adla bilinir? A) Sistem Çağrı Arayüzü B) Win32 API C) Uygulama Programlama Arayüzü (API) D) Çekirdek Cevap: C
+40. Programcılar uygulama programlama arayüzlerini kullanırlarken, işletim sistemi neyi kullanır? A) Fiziksel adresi B) Sistem çağrı arayüzünü (System call interface) C) Veri tabanını D) Sadece kullanıcı modunu Cevap: B
+41. Microsoft Windows sistem çağrı arayüzünü ne olarak adlandırmıştır? A) MS-DOS B) Win32 API C) EXT2 D) UNIX Shell Cevap: B
+42. Uygulama yazılımı, sistem yazılımı ve işletim sistemi arasındaki hiyerarşide, İşletim Sistemi hangi arayüzü kullanarak işletim sistemi arayüzüne ulaşır? A) API B) Yazılım-Donanım arayüzü C) İnsan-Bilgisayar arayüzü D) Kabuk Cevap: B
+43. Bir kaynak paylaşım hatasının (bug) ortaya çıkmasının temel sebebi ne olabilir? A) MİB'nin hızının yetersiz olması. B) Donanımın doğru bağlanmaması. C) Kaynak paylaşımını yapmakla görevli işletim sistemi yazılımının bu paylaşımı algoritma veya başka bir hata yüzünden gerçekleştirememesi. D) Kullanıcının yanlış API çağırması. Cevap: C
+44. Kaynak yalıtım mekanizmasında, MİB'nin işlemler tarafından sıralı olarak paylaşılmasında, bir işlem MİB'ni kullanırken diğer işlemlerin bellek alanlarına MİB yoluyla müdahale etmemesi neyin görevidir? A) Kullanıcı modu B) İşlemci modu C) Sistem D) Program sayacı Cevap: C
+45. Paralel çalışma (Paralel execution) için aşağıdakilerden hangisi doğrudur? A) Programlar mantıksal olarak aynı anda çalışır, fiziksel olarak sıralı çalışır. B) İşlemler arasında senkronizasyon gereklidir ama fiziksel çakışma yoktur. C) Birden fazla program hem mantıksal hem de fiziksel olarak aynı anda çalışmaktadır. D) Sadece tek MİB kullanılır. Cevap: C
 
-    <!-- Soru 5 -->
-    <div class="question-container">
-        <div class="question-text">5. 1950'lerdeki Eski Sistemlerin (Mainframe) bilgi girişi ve çıkışı için kullandığı temel yöntem aşağıdakilerden hangisiydi? [4]</div>
-        <ul class="options">
-            <li>A) Monitör ve klavye</li>
-            <li>B) Kartlar</li>
-            <li>C) Disketler</li>
-            <li>D) Ağ bağlantıları</li>
-        </ul>
-        <div class="answer"><strong>Cevap:</strong> B (Kartlar)</div>
-    </div>
+--------------------------------------------------------------------------------
+Hafta 3: OS'nin Mantıksal Yapısı
+46. Bir işletim sisteminin temel olarak bulunan dört ana bileşeninden hangisi doğru verilmiştir? A) Çekirdek, Kabuk, Bellek, İşlem B) Aygıt yönetimi, İşlem yönetimi, Bellek yönetimi, Dosya yönetimi C) API, Bellek, Dosya, MİB D) Süreç, Thread, Kullanıcı, Donanım Cevap: B
+47. Aygıt yönetiminin aygıt bağımlı bölümüne ne ad verilir? A) Çekirdek modülü B) Aygıt sürücüsü (device driver) C) Kabuk D) Sistem çağrı arayüzü Cevap: B
+48. Aygıt yönetiminin bağımsız bölümü ne görevi görür? A) Donanımı direkt kontrol eder. B) Bellek yönetimini yapar. C) Aygıt bağımlı bölümün (sürücünün) yürüteceği yazılım ortamını temsil eder ve sistem çağrılarını sürücüye iletir. D) İşlem zamanlamasını yürütür. Cevap: C
+49. İşletim sistemi tasarımcısının, bir aygıt yönetimi için öncelikle belirlediği iki ana bölüm nedir? A) Kullanıcı alanı ve Supervisor alanı B) Fiziksel ve Mantıksal bölüm C) Bağımlı ve Bağımsız bölüm D) Alan ve Zaman çoklama bölümleri Cevap: C
+50. Bilgisayarda en düşük kaynağa ihtiyaç duyan ve genellikle bir işlem ile birlikte kullanılan program parçası nedir? A) Sanal makine B) İşlem (Process) C) İş parçacığı (Thread) D) Program sayacı Cevap: C
+51. Bir işlemin birden fazla iş parçacığına bölünerek aynı anda çalıştırılmasına ne denir? A) Çoklu programlama (Multiprogramming) B) Çoklu kullanım (Multithreading) C) Gerçek zamanlı sistem D) Zaman çoklama paylaşımı Cevap: B
+52. İşlem Yönetiminin temel görevlerinden biri nedir? A) Sadece aygıt bağımlı alanları yönetmek B) İşlemlerin eşzamanlı olarak çalışabilmeleri için zamanlamanın sağlanması C) Fiziksel adresi mantıksal adrese çevirmek D) Monolitik çekirdeği yönetmek Cevap: B
+53. Bellek yönetimi hangi yönetim birimi ile birlikte çalışarak ana bellekte işlemlerin yerleşimini sağlar? A) Aygıt Yönetimi B) Dosya Yönetimi C) İşlem Yönetimi D) Ağ Yönetimi Cevap: C
+54. Modern bellek yönetimlerinin sağladığı ve fiziksel bellekten çok daha büyük bir bellek alanının kullanılmasını mümkün kılan teknoloji nedir? A) Taban Kaydedicisi B) Sanal Bellek (Virtual Memory) C) Donanım Soyutlama Katmanı D) Monolitik Çekirdek Cevap: B
+55. Aşağıdakilerden hangisi dosya yönetimi tarafından kullanılan dosya sistemlerine örnek olarak verilmiştir? A) Win32 API B) Monitör Programı C) FAT32 D) Donanım Soyutlama Katmanı Cevap: C
+56. Bellek Yönetimi sanal belleği destekliyorsa, belleği yönetmek için hangi yönetim birimleri ile birlikte çalışır? A) İşlem ve Ağ Yönetimi B) Aygıt ve Dosya Yönetimi C) Sadece İşlem Yönetimi D) Kabuk ve Çekirdek Cevap: B
+57. İşlem yönetimi, bir kaynağı paylaşması gereken birden fazla işlem olduğunda, hangi politikaları kullanarak bu kaynağı paylaştıracağı sorusunu cevaplamaya çalışır? A) Sadece Alan çoklama B) Sadece Zaman çoklama C) Kaynak paylaşım politikaları D) Sanal bellek adresi Cevap: C
+58. Dosya yönetimi, dosyaların hard disk ve CD-ROM gibi depolama birimlerine yazılmasını sağlamak için hangi iki yönetim birimi ile birlikte çalışır? A) MİB Yönetimi ve Ağ Yönetimi B) Bellek ve Aygıt Yönetimi C) İşlem ve Çekirdek Yönetimi D) Sayfalama ve Bölümleme Cevap: B
+59. Bir işlemin çalışması için gerekli bellek bölgesini ayırırken, Bellek Yönetimi aynı zamanda neyi de sağlamalıdır? A) Fiziksel adresi B) Kaynak yalıtımını C) İşlem sırasını D) Program sayacını Cevap: B
 
-    <!-- Soru 6 -->
-    <div class="question-container">
-        <div class="question-text">6. Eski Sistemlerin (Mainframe) temel bir özelliği olarak belirtilen ve aynı anda sadece bir işin yapıldığı çalışma şekli nasıldır? [4]</div>
-        <ul class="options">
-            <li>A) Paralel çalışma</li>
-            <li>B) Çoklu programlama</li>
-            <li>C) Çok görevli</li>
-            <li>D) Doğrusal çalışma</li>
-        </ul>
-        <div class="answer"><strong>Cevap:</strong> D (Doğrusal çalışma)</div>
-    </div>
-    
-    <!-- Soru 7 -->
-    <div class="question-container">
-        <div class="question-text">7. Toplu İşlem Sistemlerinde (Batch Systems) otomatik olarak birden fazla işin arka arkaya yapılması neyin geliştirilmesiyle sağlanmıştır? [5]</div>
-        <ul class="options">
-            <li>A) Gerçek Zamanlı Sistemler</li>
-            <li>B) Monitör Programları</li>
-            <li>C) Zaman Paylaşımı</li>
-            <li>D) Dağıtık Mimariler</li>
-        </ul>
-        <div class="answer"><strong>Cevap:</strong> B (Monitör Programları)</div>
-    </div>
+--------------------------------------------------------------------------------
+Hafta 4: İşletim Sistemi Katmanları ve Çekirdek
+60. İşletim sisteminin yazılım tasarımında ele alınması gereken ve makine kaynaklarının (MİB zamanı ve bellek alanı) en etkili şekilde kullanılmasını sağlamayı amaçlayan konu nedir? A) Güvenlik politikası B) Kaynakların özel kullanımı C) Düşük boyut D) Performans Cevap: D
+61. İşletim sistemi tasarımında, bir işlemin diğer işleme ait kaynaklara olan müdahalesine izin vermeyen koruma mekanizması geliştirmeyi amaçlayan unsur nedir? A) Performans B) Kaynakların özel kullanımı (Yalıtım) C) Süreklilik D) Düşük boyut Cevap: B
+62. İşlemciye donanımsal her tür komutu çalıştırma yetkisi veren, İşletim Sistemi programlarının çalıştığı mod hangisidir? A) Kullanıcı modu B) API modu C) Supervisor (Kernel) modu D) Program sayacı modu Cevap: C
+63. Kullanıcı modunda çalışan bir program herhangi bir giriş/çıkış işlemi yapılmasını istediğinde, bu isteği kimin yapmasını ister? A) API'nin B) Aygıt sürücüsünün C) İşletim sisteminin D) Başka bir kullanıcı işleminin Cevap: C
+64. Mod biti supervisor modda olacak şekilde ayarlandığında, işlemcide çalışan işlem belleğin hangi alanlarına ulaşabilir? A) Sadece Kullanıcı Alanına B) Sadece Sistem (Supervisor) Alanına C) Hem Kullanıcı hem de Supervisor alanlarına D) Hiçbir alana Cevap: C
+65. Kullanıcı modundaki bir işlem işletim sistemini çağırdığında işlemcinin hemen supervisor moda geçmesine ne ad verilir? A) İş Parçacığı Çağrısı B) Kesme C) Kilitlenme D) Supervisor çağrı (veya Sistem çağrısı) Cevap: D
+66. 8086/8088 gibi eski işlemcilerde mod bitinin bulunmaması ne gibi bir zorluk yaratmıştır? A) MİB'nin yavaş çalışması B) Kaynakların paylaşımını ve yalıtımını güçleştirmesi C) Sadece monolitik çekirdek kullanılması D) Sanal belleğin desteklenmesi Cevap: B
+67. İşletim sisteminin supervisor modda çalışan ve diğer parçaları için temel servisleri sağlayan en önemli parçası nedir? A) Kabuk (Shell) B) Sürücü (Driver) C) Uygulama Katmanı D) Çekirdek (Kernel) Cevap: D
+68. Kullanıcının sisteme verdiği komutları anlayan ve çalıştıran program olup, genellikle bir arayüzü (örneğin DOS’taki C:>) bulunan işletim sistemi parçası nedir? A) Çekirdek B) Aygıt Sürücüsü C) Kabuk (Shell) veya Komut Yorumlayıcısı D) Monitör Programı Cevap: C
+69. 1970–1990 arasında kullanılan, tüm yazılımların ve sürücülerin işletim sisteminin çekirdeğinde yer aldığı ve genellikle hızlı olan çekirdek türü nedir? A) Mikro çekirdekler (Microkernel) B) Dağıtık çekirdekler C) Monolitik çekirdekler (Monolithic kernel) D) Gerçek zamanlı çekirdekler Cevap: C
+70. Aşağıdakilerden hangisi Monolitik çekirdeklerine örnek olarak verilmiştir? A) MS-DOS B) Windows NT C) Unix D) Linux (GNU/Linux) Cevap: C
+71. Sadece en önemli işletim sistemi fonksiyonlarını barındırdığı için küçük boyutlu olan ve MS-DOS'un örnek verildiği çekirdek türü nedir? A) Monolitik çekirdek B) Hibrit çekirdek C) Mikro çekirdek (Microkernel) D) Gerçek zamanlı çekirdek Cevap: C
+72. Sistem servislerini uyarma metodu, hangi işlemler için işletim sisteminden servis talep edildiğinde oluşur? A) Sadece G/Ç işlemleri B) Sadece dosya işlemleri C) Program çalıştırma, giriş/çıkış ve dosya işlemleri, ağ erişimi gibi D) Sadece bellek yalıtımı Cevap: C
+73. Kullanıcı ile bilgisayarın iletişimini sağlayan ve komutları çekirdek katmanına ileten arayüze ne ad verilir? A) Uygulama Katmanı B) Çekirdek Katmanı C) Donanım Katmanı D) Kabuk (Shell) Katmanı Cevap: D
+74. İşletim sistemi katmanları dıştan içe doğru sıralandığında, çekirdek katmanından bir önceki katman hangisidir? A) Donanım Katmanı B) Uygulama Katmanı C) Kabuk (Shell) Katmanı D) NT Yürütücüsü Cevap: C
+75. 1969 yılında Bell Laboratuvarlarında geliştirilen, çok kullanıcılı ve çok görevli yapıyı destekleyen işletim sistemi nedir? A) Windows B) MS-DOS C) UNIX D) Mac OS Cevap: C
+76. UNIX işletim sisteminin çekirdeğinde temel fonksiyonları yapmak için hangi yönetim birimleri bulunur? A) API, HAL, Win32 B) İşlem, bellek, dosya yönetimi C) Kabuk, Uygulama, Sürücüler D) Donanım ve Aygıtlar Cevap: B
+77. Windows NT mimarisinde, bir donanımın birçok detayının soyutlanmasını (örneğin kesme adresleri) sağlayarak işletim sisteminin donanımsal adresler yerine farklı soyutlamaları kullanmasını sağlayan katman hangisidir? A) NT Yürütücüsü B) NT Çekirdeği C) Donanım Soyutlama Katmanı (HAL) D) Kullanıcı Alt sistemi Cevap: C
+78. Windows NT mimarisinde, işlemler ve kaynaklarla uğraşan ve işlem, bellek, dosya yönetimini yapan bölüm nedir? A) NT Çekirdeği B) Donanım Soyutlama Katmanı C) NT Yürütücüsü (Executive) D) G/Ç Alt Sistemi Cevap: C
+79. Windows NT mimarisinde sistem çağrı yorumlayıcısı ne tarafından gerçekleştirilmektedir? A) HAL B) NT Çekirdeği C) Win32 API D) UNIX Shell Cevap: C
+80. UNIX işletim sistemi mimarisinde, sistem çağrı arayüzü (kabuk) hangi katmanlar arasında bir köprü görevi görür? A) Donanım ve Sürücü B) Kullanıcı/Uygulama katmanı ve Çekirdek katmanı C) Bellek ve İşlem D) Çekirdek ve HAL Cevap: B
+81. NT Çekirdeği hangi temel işletim sistemi mekanizmalarını yürütür? A) Kullanıcı alt sistemlerini. B) Kesmelerin ele alınması ve iş parçacıklarının zamanlanması gibi donanıma en yakın mekanizmalar. C) Dosya sistemlerini (NTFS). D) Aygıt sürücülerini. Cevap: B
+82. Linux işletim sistemi hangi işletim sisteminin köklerine dayanır ve günümüzde Windows tabanlı sistemlerden sonra en çok kullanılan sistemdir? A) MS-DOS B) Mac OS C) UNIX D) VBasic Cevap: C
+83. Kullanıcı modunda çalışan bir programın bellekte sadece hangi alana ulaşabileceği belirtilmiştir? A) Supervisor Alanı B) Sistem Alanı C) Çekirdek Alanı D) Kullanıcı Alanı Cevap: D
+84. Monolitik çekirdeklerin boyutlarının çok büyük olduğu düşüncesi, hangi yapının yaratılmasına yol açmıştır? A) Dağıtık sistemlerin B) Bitişik bellek yerleşiminin C) Modüler yapıda olan mikro çekirdeklerin D) Toplu işlem sistemlerinin Cevap: C
+85. Sistem çağrıları genellikle hangi dil komutları şeklinde olmaktadır? A) C++ B) Python C) Assembly dili D) VBasic Cevap: C
 
-    <!-- Soru 8 -->
-    <div class="question-container">
-        <div class="question-text">8. Zaman paylaşımlı sistemlerde, MİB'nin farklı işlerin belli görevlerini sırayla yerine getirerek kullanıcının bu işleri aynı anda yapıyormuş gibi algılamasına neden olan özellik nedir? [6]</div>
-        <ul class="options">
-            <li>A) Çoklu Programlama (Multiprogramming)</li>
-            <li>B) Çok Görevli (Multitasking)</li>
-            <li>C) Asimetrik Çoklu İşleme</li>
-            <li>D) Monolitik Çekirdek</li>
-        </ul>
-        <div class="answer"><strong>Cevap:</strong> B (Çok Görevli (Multitasking))</div>
-    </div>
+--------------------------------------------------------------------------------
+Hafta 5: İşlem Yönetimi
+86. Bir işlemin yapısında yer alan ve bir sonraki işletilecek olan komutu gösteren sayacın içeriği olan bölüm nedir? A) Metin bölümü B) Yığın bölümü C) Veri bölümü D) Program sayacı (program counter) bölümü Cevap: D
+87. Bir işlemin yapısında yerel değişkenler, dönüş adresleri gibi geçici bilgileri tutan bölüm nedir? A) Program Sayacı B) Yığın (Stack) bölümü C) Veri bölümü D) Metin bölümü Cevap: B
+88. Bir işlem sırasında çalışma süresince kullanılan ve bazı işlemlerde bulunan alan nedir? A) Program Sayacı B) Yığın C) Heap (Alan) D) Metin bölümü Cevap: C
+89. Her işlem, işletim sistemi tarafından hangi yapı ile gösterilir ve bu yapıda işlemin durumu, program sayacı, kaydediciler gibi bilgiler yer alır? A) Sanal Makine B) İş Parçacığı C) İşlem Kontrol Bloğu (Process Control Block - PCB) D) Bellek Sınırı Cevap: C
+90. İşlem Kontrol Bloğunda (PCB) yer alan ve işlemin önceliğini, zamanlama kuyruğundaki işaretçisini ve diğer zamanlama parametrelerini içeren bilgi hangisidir? A) İşlem durumu B) Program sayacı C) MİB zamanlanma bilgisi D) Bellek yönetimi bilgisi Cevap: C
+91. Bir işlemin durumunu gösteren ve işlemin komutlarının yürütüldüğü durum hangisidir? A) Yeni B) Bekliyor C) Hazır D) Çalışıyor Cevap: D
+92. Bir işlemin bir olayın gerçekleşmesini (örneğin bir G/Ç işlemi) beklediği durum aşağıdakilerden hangisidir? A) Yeni B) Çalışıyor C) Hazır D) Bekliyor Cevap: D
+93. İşlemde kullanılan kaydedicilerin (AX, BX vb.) içerisindeki bilgilerin bir kesme geldiğinde mutlaka saklanması gerektiği bilgisi PCB'nin hangi öğesiyle ilgilidir? A) Bellek yönetimi bilgisi B) Hesap bilgileri C) G/Ç durum bilgisi D) MİB kaydedicileri Cevap: D
+94. Bir İşlem Kontrol Bloğunda (PCB) yer alan ve işletim sistemi tarafından kullanılan bellek sistemleri (taban ve limit kaydedicileri, sayfa tablosu vb.) ile ilgili bilgiler hangi bölümdedir? A) Program sayacı B) Bellek yönetimi bilgisi C) İşlem durumu D) Hesap bilgileri Cevap: B
+95. İş Parçacıklarına (Threads) verilen örnekte, bir kelime işlemci programında kullanıcının bir satırdaki yazıları seçerek kalın yapması faaliyeti neye karşılık gelir? A) İşlem B) Sanal Bellek C) Çekirdek D) İş parçacığı Cevap: D
+96. Bir işlemin bittiği durum nedir? A) Yeni B) Hazır C) Çalışıyor D) Bitti Cevap: D
+97. Bir işlemin PCB'sinde bulunan G/Ç durum bilgisi neyi içermektedir? A) İşlemin önceliğini B) Programın kaynak kodunu C) İşlem tarafından kullanılan G/Ç aygıtlarının listesini, açılan dosyaların listesini D) Mantıksal adresleri Cevap: C
+98. Modern işletim sistemleri, aynı işlem içerisinde birden fazla iş parçacığının yürütülmesine izin vermesine ne ad verilir? A) Çoklu programlama B) Çoklu kullanım (Multithreading) C) Monolitik çekirdek D) Toplu işlem Cevap: B
 
-    <!-- Soru 9 -->
-    <div class="question-container">
-        <div class="question-text">9. Aynı anda birden fazla programın çalıştırılması anlamına gelen ve Zaman Paylaşımlı Sistemlerde sistem tarafından MİB zamanlaması ve bellek yönetimi gibi işlemlerin yapıldığı kavram aşağıdakilerden hangisidir? [6]</div>
-        <ul class="options">
-            <li>A) Tek Kullanıcılı Sistem</li>
-            <li>B) Doğrusal Çalışma</li>
-            <li>C) Çoklu Programlama (Multiprogramming)</li>
-            <li>D) Gömülü Sistem</li>
-        </ul>
-        <div class="answer"><strong>Cevap:</strong> C (Çoklu Programlama (Multiprogramming))</div>
-    </div>
+--------------------------------------------------------------------------------
+Hafta 6: İşlem Zamanlama ve Kilitlenme
+99. Tüm işlemlerin ilk alındığı kuyruk aşağıdakilerden hangisidir? A) Hazır Kuyruğu (Ready queue) B) G/Ç Kuyruğu C) İş Kuyruğu (Job queue) D) Kesme Kuyruğu Cevap: C
+100. Çalıştırılmaya hazır olan veya bekleyen işlemlerin MİB'ne gönderilmek üzere alındığı kuyruk hangisidir? A) G/Ç Kuyruğu B) İş Kuyruğu (Job queue) C) Hazır Kuyruğu (Ready queue) D) Kesme Kuyruğu Cevap: C
+101. Çalıştırılacak olan bir işlemi seçerek MİB'ne gönderen yapıya ne ad verilir? A) Program Sayacı B) Semafor C) Dağıtıcı (Dispatcher) D) Monitör Cevap: C
+102. Bir işlem G/Ç isteğinde bulunduğunda hangi kuyruğa yerleştirilir? A) İş Kuyruğu B) Hazır Kuyruğu C) G/Ç Kuyruğu D) Kesme Kuyruğu Cevap: C
+103. Bir işlem bir kesme oluştuğu için MİB’de çalışması durdurulduğunda, kesmenin bitiminin ardından hangi duruma getirilerek kuyruğa tekrar girer? A) Çalışıyor B) Yeni C) Bitti D) Hazır Cevap: D
+104. Sonsuz döngü anlamına gelen, değişik işlemlerin/iş parçacıklarının birbirlerinin kaynaklarını karşılıklı olarak kullanmalarından ortaya çıkan ve Windows'da mavi ekranın sebebi olabilen durum nedir? A) Çoklu programlama B) Semafor C) Kilitlenme (Deadlock) D) Zamanlama Cevap: C
+105. Latincede ‘deniz feneri’ anlamına gelen, negatif olmayan bir tamsayı olup wait ve signal işlemleri ile değeri değiştirilebilen değişken nedir? A) Program Sayacı B) Monitör C) Semafor D) Dağıtıcı Cevap: C
+106. Semafor üzerindeki ‘Signal (S)’ işlemi matematiksel olarak ne anlama gelir? A) S = S - 1 (1 azaltma) B) S = S + 1 (1 arttırma) C) S = 0 D) S = C(sem) Cevap: B
+107. Semafor üzerindeki ‘Wait (W)’ işlemi matematiksel olarak ne anlama gelir? A) W = W + 1 (1 arttırma) B) W = W – 1 (1 azaltma) C) W = Vol(sem) D) W = C(sem) Cevap: B
+108. Bir semaforun değeri için, Vol(sem)≤0 eşitsizliğinin doğru olması ne anlama gelir? A) Semaforun değeri 0’a eşit veya büyük olmalıdır (Yanlış ifadeyi gösterir, Vol(sem)≥0 olmalıdır) B) Semaforun negatif olması kilitlenmeye neden olur C) Semaforun başlangıç değerini gösterir D) Signal operasyonu sayısını gösterir Cevap: A (Not: Kaynakta bu değerin ≥0 olması gerektiği belirtilir, soru bu formülün yanlışlığını ima eder.)
+109. Bir semaforun kaç işlem tarafından kullanılabileceği neye bağlıdır? A) Wait operasyonu sayısına B) Signal operasyonu sayısına C) Başlangıç değerine ('n' olan bir semafor 'n' işlem tarafından kullanılır) D) Kuyruktaki işlem sayısına Cevap: C
+110. Bir wait işlemi eğer ilgili semafor değeri 0 ise neye neden olur? A) İşlemin hemen bitmesine B) İşlemin bloke edilmesine C) İşlemin MİB'de çalışmasına D) Semaforun başlangıç değerine dönmesine Cevap: B
+111. Bloklama ve bloğu açma (Blocking and Unblocking) mekanizmasında, bloke kaldırıldıktan sonra işlem hangi duruma getirilir? A) Bitti B) Yeni C) Çalışabilir hale getirilir D) Bekliyor Cevap: C
+112. Paylaşılan nesneye ulaşmada meydana gelebilecek problemleri ortadan kaldırmaya ve wait ile signal işlemleri arasındaki senkronizasyonu sağlamaya yönelik geliştirilen programlama yapıları nedir? A) İş Parçacıkları B) Monitör Programları C) Gömülü Sistemler D) Donanım Soyutlama Katmanı Cevap: B
+113. Üretici-Tüketici örneğinde, Wait (space avaible) işlemi ne anlama gelir? A) Buffer'da eleman olana kadar bekle. B) Buffer'ı serbest bırak. C) Boş alan oluncaya kadar bekle. D) Eleman sayısını 1 arttır. Cevap: C
+114. Üretici-Tüketici örneğinde Signal (buffer maniplation) işlemi ne yapar? A) Boş yer sayısını 1 arttırır. B) Eleman sayısını 1 arttırır. C) Buffer’ı serbest bırakır (Buffer = 1 yapar). D) Buffer’dan bilgi alır. Cevap: C
+115. Monitör programları hangi işlemlerin yanlış gerçekleştirilmesi durumunda oluşan sistem kilitlenmelerini engeller? A) Program Sayacı güncellemeleri B) G/Ç işlemleri C) Wait ve signal işlemleri D) MİB zamanlaması Cevap: C
 
-    <!-- Soru 10 -->
-    <div class="question-container">
-        <div class="question-text">10. Kişisel Bilgisayar Sistemlerinin (Personal Computer Systems) ortaya çıkmasına neden olan temel fiziksel değişiklik nedir? [7]</div>
-        <ul class="options">
-            <li>A) Ağ teknolojilerinin gelişmesi</li>
-            <li>B) Donanım ebatlarının küçülmesi</li>
-            <li>C) Gerçek zamanlı sistemlere olan ihtiyaç</li>
-            <li>D) Monitör programlarının icadı</li>
-        </ul>
-        <div class="answer"><strong>Cevap:</strong> B (Donanım ebatlarının küçülmesi)</div>
-    </div>
-    
-    <!-- ... Diğer 140 soru ve cevapları buraya eklenecektir ... -->
-    
-    
-    <!-- Soru 148 -->
-    <div class="question-container">
-        <div class="question-text">148. İşletim sisteminin temel yazılım tasarımında yer alan üç unsur arasında hangisi *yer almaz*? [39]</div>
-        <ul class="options">
-            <li>A) İşlemci modları</li>
-            <li>B) Çekirdek (Kernel)</li>
-            <li>C) Donanım Soyutlama Katmanı (HAL)</li>
-            <li>D) Sistem servislerini uyarma metodu</li>
-        </ul>
-        <div class="answer"><strong>Cevap:</strong> C (Donanım Soyutlama Katmanı (HAL))</div>
-    </div>
+--------------------------------------------------------------------------------
+Hafta 7: Bellek Yönetimi ve Yerleşim
+116. Genellikle bir programın hard diskte tutulup, belleğe bir işlem yardımıyla getirilerek yerleştirildiği, bekleyen bu işlemlerin oluşturduğu forma ne ad verilir? A) Hazır Kuyruğu B) G/Ç Kuyruğu C) Giriş Kuyruğu D) Sayfalama Cevap: C
+117. MİB tarafından oluşturulan adrese ne ad verilir? A) Fiziksel adres B) Taban adresi C) Mantıksal (veya Sanal) adres D) Çerçeve adresi Cevap: C
+118. Bellekte yer alan adrese ne ad verilir? A) Mantıksal adres B) Sanal adres C) Fiziksel adres D) Ofset adres Cevap: C
+119. Mantıksal adresi, fiziksel adrese çevirerek işlemin belleğe dinamik olarak yerleşmesini sağlayan kaydedici nedir? A) Tavan (Limit) kaydedicisi B) Program sayacı C) Taban (Base) kaydedicisi D) Sayfa ofseti Cevap: C
+120. Taban kaydedicisinin değeri ile mantıksal adres toplanarak elde edilen adres nedir? A) Tavan Adresi B) Ofset Adresi C) Fiziksel Adres D) Sanal Bellek Cevap: C
+121. Bellek korumasının donanımsal olarak sağlandığı kaydediciler hangileridir? A) Program Sayacı ve MİB Kayred... (truncated for brevity in the string)
+`;
 
-    <!-- Soru 149 -->
-    <div class="question-container">
-        <div class="question-text">149. Fiziksel makine donanımlarını saydam paylaşım tekniğini kullanarak soyut makineler arasında paylaştırması, işletim sisteminin hangi temel görevini gerçekleştirmesini sağlar? [20]</div>
-        <ul class="options">
-            <li>A) Kaynak yalıtımı</li>
-            <li>B) Monolitik çekirdek kullanımı</li>
-            <li>C) Kullanıcıya yalnızca kendine tahsis edilmiş bir makine varmış gibi çalışma ortamı sağlanması</li>
-            <li>D) Dosya yönetiminin yapılması</li>
-        </ul>
-        <div class="answer"><strong>Cevap:</strong> C (Kullanıcıya yalnızca kendine tahsis edilmiş bir makine varmış gibi çalışma ortamı sağlanması)</div>
-    </div>
+  // Parser: satır bazlı, soru bloklarını yakala
+  const questions = [];
+  const re = /(\d+)\.\s*([\s\S]*?)\s*A\)\s*([\s\S]*?)\s*B\)\s*([\s\S]*?)\s*C\)\s*([\s\S]*?)\s*D\)\s*([\s\S]*?)\s*Cevap:\s*([ABCD])/g;
+  let m;
+  while((m = re.exec(raw)) !== null){
+    const num = Number(m[1]);
+    const q = m[2].replace(/\s+/g,' ').trim();
+    const a = m[3].replace(/\s+/g,' ').trim();
+    const b = m[4].replace(/\s+/g,' ').trim();
+    const c = m[5].replace(/\s+/g,' ').trim();
+    const d = m[6].replace(/\s+/g,' ').trim();
+    const ans = m[7].trim();
+    questions.push({num, q, opts:{A:a,B:b,C:c,D:d}, ans});
+  }
 
-    <!-- Soru 150 -->
-    <div class="question-container">
-        <div class="question-text">150. Bellek yönetiminin temel unsurlarından hangisi, bilgiye erişimi kolaylaştırmak için belleğin mantıksal alanlara bölünmesini sağlamayı amaçlar? [71]</div>
-        <ul class="options">
-            <li>A) Taban kaydedicisi kullanımı</li>
-            <li>B) Belleğin mantıksal alanlara bölünmesi</li>
-            <li>C) Kullanıcılar arası kaynak paylaşımı</li>
-            <li>D) İşlemi başka bir yere aktarabilme</li>
-        </ul>
-        <div class="answer"><strong>Cevap:</strong> B (Belleğin mantıksal alanlara bölünmesi)</div>
-    </div>
+  // Fallback: if parser failed (e.g. truncated raw), show a message
+  if(questions.length === 0){
+    document.getElementById('quiz').innerHTML = '<div class="card">Sorular yüklenemedi. Lütfen `soru.txt` dosyasını aynı klasöre bırakın ve bu HTML dosyasını yeniden açın.</div>';
+  } else {
+    const quiz = document.getElementById('quiz');
+    questions.forEach(item => {
+      const card = document.createElement('section');
+      card.className = 'card';
+      card.id = 'q-'+item.num;
 
+      const header = document.createElement('div'); header.className='qheader';
+      const left = document.createElement('div');
+      left.innerHTML = `<span class="qnum">${item.num}.</span> <div class="qtext">${escapeHtml(item.q)}</div>`;
+      header.appendChild(left);
+      card.appendChild(header);
+
+      const opts = document.createElement('div'); opts.className='opts';
+      ['A','B','C','D'].forEach(letter => {
+        const btn = document.createElement('button');
+        btn.className = 'opt';
+        btn.dataset.letter = letter;
+        btn.innerHTML = `<strong>${letter})</strong> ${escapeHtml(item.opts[letter])}`;
+        btn.addEventListener('click', ()=> onPick(item, btn, card));
+        opts.appendChild(btn);
+      });
+      card.appendChild(opts);
+      const meta = document.createElement('div'); meta.className='meta'; meta.textContent = 'Seçiniz.';
+      card.appendChild(meta);
+      quiz.appendChild(card);
+    });
+
+    // update stats initial
+    updateStats();
+  }
+
+  function onPick(item, btn, card){
+    if(card.dataset.answered) return; // tek cevap
+    const chosen = btn.dataset.letter;
+    const correct = item.ans;
+    const allBtns = card.querySelectorAll('.opt');
+    if(chosen === correct){
+      btn.classList.add('correct');
+      card.querySelector('.meta').textContent = 'Doğru ✓';
+    } else {
+      btn.classList.add('wrong');
+      // işaretle doğru olan
+      allBtns.forEach(b=>{ if(b.dataset.letter === correct) b.classList.add('correct'); });
+      card.querySelector('.meta').textContent = `Yanlış — Doğru: ${correct}) ${item.opts[correct]}`;
+    }
+    card.dataset.answered = '1';
+    updateStats();
+  }
+
+  function updateStats(){
+    const total = questions.length;
+    const answered = document.querySelectorAll('[data-answered="1"]').length;
+    document.getElementById('stats').textContent = `${answered}/${total} cevaplandı`;
+  }
+
+  document.getElementById('showScore').addEventListener('click', ()=>{
+    const total = questions.length;
+    const answeredCards = document.querySelectorAll('[data-answered="1"]');
+    let correct = 0;
+    answeredCards.forEach(c=>{ if(c.querySelector('.opt.correct')) correct++; });
+    alert(`Cevaplanan: ${answeredCards.length}/${total}\nDoğru: ${correct}\nYanlış: ${answeredCards.length - correct}`);
+  });
+
+  document.getElementById('reset').addEventListener('click', ()=>{
+    if(!confirm('Tüm cevapları sıfırlamak istiyor musunuz?')) return;
+    document.querySelectorAll('.opt').forEach(b=>{ b.classList.remove('correct','wrong'); });
+    document.querySelectorAll('.card').forEach(c=>{ delete c.dataset.answered; c.querySelector('.meta').textContent = 'Seçiniz.'; });
+    updateStats();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  // Theme handling: force dark (single-mode) — remove toggle interactivity
+  (function(){
+    const themeToggle = document.getElementById('themeToggle');
+    if(themeToggle){
+      themeToggle.textContent = '☀️';
+      themeToggle.setAttribute('aria-pressed','true');
+      // disable the button because dark mode is forced
+      themeToggle.title = 'Tek tema (koyu) etkin';
+      themeToggle.addEventListener('click', ()=>{
+        // subtle feedback: flash card
+        document.body.style.transition='background .2s';
+        document.body.style.opacity='0.96';
+        setTimeout(()=>document.body.style.opacity='1',150);
+      });
+    }
+    // ensure root has dark variables (already forced via CSS root)
+    document.documentElement.dataset.theme = 'dark';
+  })();
+
+  // küçük yardımcılar
+  function escapeHtml(s){ return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  </script>
 </body>
 </html>
